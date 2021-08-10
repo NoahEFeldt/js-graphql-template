@@ -15,7 +15,7 @@ export async function sendEmail(to: string, html: string) {
   });
 
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@example.com>',
+    from: '"Google Support" <support@google.com>',
     to: to,
     subject: "Change Password ✔",
     html,
