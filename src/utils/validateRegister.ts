@@ -5,7 +5,7 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     return [
       {
         field: "password",
-        message: "length must be greater than 2",
+        message: "Das Passwort muss mindestens 3 Zeichen haben",
       },
     ];
   }
@@ -14,7 +14,7 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     return [
       {
         field: "username",
-        message: "length must be greater than 2",
+        message: "Der Nutzername muss mindestens 3 Zeichen haben",
       },
     ];
   }
@@ -23,7 +23,7 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     return [
       {
         field: "username",
-        message: "cannot include @",
+        message: "Der Nutzername darf kein @ enthalten",
       },
     ];
   }
@@ -32,7 +32,15 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     return [
       {
         field: "email",
-        message: "Invalid Email",
+        message: "Diese Email ist ungültig",
+      },
+    ];
+  }
+  if (options.username === options.password) {
+    return [
+      {
+        field: "password",
+        message: "Dein Password darf nicht gleich dein Nutzername sein",
       },
     ];
   }

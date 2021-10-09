@@ -1,7 +1,5 @@
 import "reflect-metadata";
-import { MikroORM } from "@mikro-orm/core";
 import { COOKIE, __prod__ } from "./constants";
-import microConfig from "./mikro-orm.config";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
@@ -13,10 +11,20 @@ import session from "express-session";
 import connectRedis from "connect-redis";
 import { MyContext } from "./types";
 import cors from "cors";
+import { createConnection } from "typeorm";
+import { Post } from "./entities/Post";
+import { User } from "./entities/User";
 
 const main = async () => {
-  const orm = await MikroORM.init(microConfig);
-  await orm.getMigrator().up();
+  const conn = await createConnection({
+    type: "postgres",
+    database: "shop",
+    username: "postgres",
+    password: "password",
+    logging: true,
+    synchronize: true,
+    entities: [Post, User],
+  });
 
   const app = express();
   app.use(
@@ -39,7 +47,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 Days
         httpOnly: true,
-        secure: __prod__, //only https / dont in prod than https true
+        secure: __prod__, //only https - dont in prod than https true
         sameSite: "lax", //csrf
       },
       saveUninitialized: false,
@@ -53,7 +61,7 @@ const main = async () => {
       resolvers: [HelloResolver, PostResolver, UserResolver],
       validate: false,
     }),
-    context: ({ req, res }): MyContext => ({ em: orm.em, req, res, redis }),
+    context: ({ req, res }): MyContext => ({ req, res, redis }),
   });
 
   await apolloServer.start();
@@ -62,8 +70,10 @@ const main = async () => {
     cors: { origin: "http://localhost:3000", credentials: true },
   });
 
-  app.listen(4000, () => {
-    console.log("Server started on port 4000");
+  const port = 4000;
+
+  app.listen(port, () => {
+    console.log("Server started on port", port);
   });
 };
 

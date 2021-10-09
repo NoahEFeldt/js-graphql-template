@@ -5,12 +5,12 @@ export async function sendEmail(to: string, html: string) {
   // console.log("Account: ", testAccount);
 
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
+    host: "debugmail.io",
+    port: 25,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: "nj43qg22e7i7fass@ethereal.email",
-      pass: "ywp9FdDK6puDRWD2Rx",
+      user: "noahe7157@gmail.com",
+      pass: "a03b5f20-fc79-11eb-a14a-3fd27d124331",
     },
   });
 
