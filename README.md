@@ -1,1 +1,1 @@
-# javascript-graphql-template
+# js-graphql-template
