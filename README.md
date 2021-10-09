@@ -1,4 +1,4 @@
-# Template for Javascript and GraphQL
+# Template for Typescript and GraphQL
 
 ## Getting Repository with git cli
 
